@@ -12,13 +12,17 @@ Given("the user is logged in to OrangeHRM", async ({ page, loginPage, excelReade
 });
 
 When(
-  "the user adds a candidate using the Recruitment test data and saves",
-  async ({ recruitmentPage, excelReader }) => {
-    const candidate = excelReader.getExcelData("Recruitment", "addCandidate");
-    await recruitmentPage.addCandidate(candidate);
+  "the user creates a candidate with a vacancy that has a hiring manager",
+  async ({ recruitmentPage, recruitmentExcelReader }) => {
+    const candidateData = recruitmentExcelReader.getExcelData("Recruitment", "addCandidate");
+    expect(candidateData, 'Missing Recruitment/addCandidate test data').toBeDefined();
+    await recruitmentPage.addCandidate();
   }
 );
 
-Then("the candidate should be saved successfully", async ({ recruitmentPage }) => {
-  await expect(recruitmentPage.successMessage).toBeVisible();
-});
+Then(
+  "the candidate should be saved with the selected vacancy and hiring manager",
+  async ({ recruitmentPage }) => {
+    await recruitmentPage.verifyCandidateSaved();
+  }
+);
