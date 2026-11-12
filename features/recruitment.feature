@@ -1,6 +1,7 @@
 Feature: Recruitment
 
-  Scenario: Add a candidate from the Recruitment test data
+  @recruitment
+  Scenario: Add a candidate to a vacancy with a hiring manager
     Given the user is logged in to OrangeHRM
-    When the user adds a candidate using the Recruitment test data and saves
-    Then the candidate should be saved successfully
+    When the user creates a candidate with a vacancy that has a hiring manager
+    Then the candidate should be saved with the selected vacancy and hiring manager
