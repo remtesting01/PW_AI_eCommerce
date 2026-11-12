@@ -4,6 +4,7 @@ import { ExcelReader } from "../utils/ExcelReader.js";
 import { logger } from "../utils/logger.js";
 import { RecruitmentPage } from "../pages/RecruitmentPage.js";
 import { DashboardPage } from "../pages/DashboardPage.js";
+import path from "node:path";
 
 
 export const test = base.extend({
@@ -21,14 +22,22 @@ export const test = base.extend({
    logger: async ({}, use) => {
         await use(logger);
     },
-    recruitmentPage: async ({ page }, use) => {
+
+   recruitmentPage: async ({ page }, use) => {
         const recruitmentPage = new RecruitmentPage(page);
 await use(recruitmentPage);
+
 },
     dashboardPage: async ({ page }, use) => {
         const dashboardPage = new DashboardPage(page);
         await use(dashboardPage);
     },
 
+    recruitmentExcelReader: async ({}, use) => {
+        const excelReader = new ExcelReader(
+            path.resolve("test-data", "recruitment_testData.xlsx")
+        );
+        await use(excelReader);
+    },
 });
 
